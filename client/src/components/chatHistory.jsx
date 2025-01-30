@@ -1,23 +1,28 @@
-import React, { useEffect, useState } from 'react';
-// You’d have an API call to fetch all sessions, etc.
-function ChatHistory() {
-  const [sessions, setSessions] = useState([]);
+// src/components/ChatHistory.jsx
+import React from "react";
 
-  useEffect(() => {
-    // In production, fetch the list of existing chat sessions from your server
-    // setSessions(responseFromServer);
-  }, []);
-
+function ChatHistory({ sessions, onSelectSession, onNewChat }) {
   return (
-    <div style={{ width: '200px', border: '1px solid #ccc', padding: '1rem' }}>
-      <h3>Chat History</h3>
-      <ul>
+    <div className="bg-gray-900 text-white w-64 p-4 flex flex-col">
+      <button
+        onClick={onNewChat}
+        className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded mb-4"
+      >
+        + New Chat
+      </button>
+
+      <h2 className="text-lg font-bold mb-2">Chat History</h2>
+      <div className="flex-1 overflow-y-auto">
         {sessions.map((session) => (
-          <li key={session._id}>
-            Chat {session._id}
-          </li>
+          <div
+            key={session.id}
+            onClick={() => onSelectSession(session.id)}
+            className="cursor-pointer p-2 hover:bg-gray-700 rounded"
+          >
+            {session.name || `Chat ${session.id}`}
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 }
